@@ -3,18 +3,22 @@ package ru.geekbrains.spring1.lesson4.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.spring1.lesson4.data.Product;
-import ru.geekbrains.spring1.lesson4.repositories.ProductRepository;
+import ru.geekbrains.spring1.lesson4.repositories.ProductDao;
+import ru.geekbrains.spring1.lesson4.repositories.ProductDaoImpl;
+
 
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    private ProductRepository productRepository;
+
+
+    private ProductDao productRepository;
 
     @Autowired
-    public void setProductRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public void setProductRepository(ProductDaoImpl productDao) {
+        this.productRepository = productDao;
     }
 
     public Product getProductById(Long id){
@@ -32,5 +36,7 @@ public class ProductService {
     public void changePrice(Long id, Integer delta) {
         Product p = productRepository.getProductById(id);
         p.setPrice(p.getPrice() + delta);
+        productRepository.save(p);
+
     }
 }
